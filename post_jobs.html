@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post Jobs | Vital Labs</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #004466;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 1rem;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: #004466;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    .main-content {
+      display: flex;
+      max-width: 1200px;
+      margin: 2rem auto;
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+
+    .sidebar input, .sidebar select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .content-area {
+      flex: 1;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .form-container input, .form-container select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .form-container button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .job-listing .job-card {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      background: #fff;
+      position: relative;
+    }
+
+    .job-card h3 {
+      margin: 0 0 0.5rem;
+    }
+
+    .job-card button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .popup, .candidate-popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .popup-content, .candidate-content {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      max-height: 80%;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .close-btn, .back-btn {
+      position: absolute;
+      top: 10px;
+      background: red;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .close-btn {
+      right: 10px;
+    }
+
+    .back-btn {
+      left: 10px;
+      background: #007bff;
+    }
+
+    .candidate-name {
+      cursor: pointer;
+      color: #007bff;
+      margin: 0.5rem 0;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Vital Labs</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="culture.html" target="_blank">Culture</a>
+      <a href="contact.php" target="_blank">Contact</a>
+      <a href="post_jobs.html">Post a Job</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Sidebar Search/Filters -->
+    <div class="sidebar">
+      <h3>Search & Filter</h3>
+      <input type="text" id="searchBar" placeholder="Search by title..." oninput="filterJobs()" />
+      <select id="filterRemote" onchange="filterJobs()">
+        <option value="">Remote</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+      <select id="filterFulltime" onchange="filterJobs()">
+        <option value="">Full-Time</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+
+    <!-- Job Form + List -->
+    <div class="content-area">
+      <!-- Form -->
+      <section class="form-container">
+        <h2>Add New Job</h2>
+        <input type="text" id="jobTitle" placeholder="Job Title" />
+        <select id="remote">
+          <option value="">Remote?</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <select id="fulltime">
+          <option value="">Full-Time?</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <button onclick="addJob()">Post Job</button>
+      </section>
+
+      <!-- Job Cards -->
+      <section class="job-listing" id="jobList">
+        <h2>Posted Jobs</h2>
+        <!-- One default sample job -->
+        <div class="job-card" data-title="Frontend Developer" data-remote="Yes" data-fulltime="Yes">
+          <h3>Frontend Developer</h3>
+          <p>Remote: Yes</p>
+          <p>Full-Time: Yes</p>
+          <button onclick="showApplicants()">View</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Popup: Applicants -->
+  <div class="popup" id="applicantPopup">
+    <div class="popup-content">
+      <button class="close-btn" onclick="closePopup('applicantPopup')">X</button>
+      <h2>Applicants</h2>
+      <div class="candidate-name" onclick="showCandidateDetails('Alice', 'Resume: alice.pdf\nSkills: HTML, CSS, React')">Alice</div>
+      <div class="candidate-name" onclick="showCandidateDetails('Bob', 'Resume: bob.pdf\nSkills: Node.js, MongoDB')">Bob</div>
+    </div>
+  </div>
+
+  <!-- Popup: Candidate Detail -->
+  <div class="candidate-popup" id="candidatePopup">
+    <div class="candidate-content">
+      <button class="close-btn" onclick="closePopup('candidatePopup')">X</button>
+      <button class="back-btn" onclick="goBackToApplicants()">← Back</button>
+      <h2 id="candidateName"></h2>
+      <p id="candidateDetails"></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Vital Labs. All rights reserved.</p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    function addJob() {
+      const title = document.getElementById('jobTitle').value;
+      const remote = document.getElementById('remote').value;
+      const fulltime = document.getElementById('fulltime').value;
+
+      if (!title || !remote || !fulltime) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const card = document.createElement('div');
+      card.className = 'job-card';
+      card.setAttribute('data-title', title.toLowerCase());
+      card.setAttribute('data-remote', remote);
+      card.setAttribute('data-fulltime', fulltime);
+      card.innerHTML = `
+        <h3>${title}</h3>
+        <p>Remote: ${remote}</p>
+        <p>Full-Time: ${fulltime}</p>
+        <button onclick="showApplicants()">View</button>
+      `;
+      document.getElementById('jobList').appendChild(card);
+
+      document.getElementById('jobTitle').value = '';
+      document.getElementById('remote').value = '';
+      document.getElementById('fulltime').value = '';
+    }
+
+    function showApplicants() {
+      document.getElementById('applicantPopup').style.display = 'flex';
+    }
+
+    function closePopup(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    function showCandidateDetails(name, details) {
+      document.getElementById('candidateName').innerText = name;
+      document.getElementById('candidateDetails').innerText = details;
+      document.getElementById('applicantPopup').style.display = 'none';
+      document.getElementById('candidatePopup').style.display = 'flex';
+    }
+
+    function goBackToApplicants() {
+      document.getElementById('candidatePopup').style.display = 'none';
+      document.getElementById('applicantPopup').style.display = 'flex';
+    }
+
+    function filterJobs() {
+      const search = document.getElementById('searchBar').value.toLowerCase();
+      const remote = document.getElementById('filterRemote').value;
+      const fulltime = document.getElementById('filterFulltime').value;
+
+      const cards = document.querySelectorAll('.job-card');
+      cards.forEach(card => {
+        const title = card.getAttribute('data-title') || "";
+        const isRemote = card.getAttribute('data-remote') || "";
+        const isFull = card.getAttribute('data-fulltime') || "";
+
+        const matchesTitle = title.includes(search);
+        const matchesRemote = !remote || isRemote === remote;
+        const matchesFulltime = !fulltime || isFull === fulltime;
+
+        card.style.display = (matchesTitle && matchesRemote && matchesFulltime) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

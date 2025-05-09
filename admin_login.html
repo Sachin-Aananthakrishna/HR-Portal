@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login | VITAL LABS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #0077ff;
+      --secondary: #00c2ff;
+      --accent: #ffd700;
+      --dark: #0b0c10;
+      --light: #f9f9f9;
+      --gray: #adb5bd;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 500px;
+      margin: 80px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--primary);
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid var(--gray);
+      font-size: 16px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: var(--secondary);
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Admin Login</h2>
+    <div class="error" id="error-msg">Invalid email or password</div>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button class="btn" onclick="validateLogin()">Login</button>
+  </div>
+
+  <script>
+    function validateLogin() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const errorMsg = document.getElementById("error-msg");
+
+      if (email === "admin@gmail.com" && password === "admin") {
+        window.location.href = "post_jobs.html"; // redirect on success
+      } else {
+        errorMsg.style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>
