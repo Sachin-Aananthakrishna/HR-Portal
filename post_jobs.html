@@ -37,6 +37,9 @@
       justify-content: space-between;
       align-items: center;
       padding: 20px 0;
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
     }
     .logo {
       font-size: 28px;
@@ -133,11 +136,9 @@
       padding: 25px 20px 20px 20px;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
       margin-bottom: 20px;
-      position: relative;
       transition: transform 0.3s;
-    }
-    .job-card:hover {
-      transform: translateY(-6px);
+      display: flex;
+      flex-direction: column;
     }
     .job-card h3 {
       margin: 0 0 10px 0;
@@ -148,10 +149,12 @@
       color: var(--gray);
       margin-bottom: 10px;
     }
+    .job-card .btn-group {
+      margin-top: auto;
+      display: flex;
+      gap: 10px;
+    }
     .job-card button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
       padding: 7px 16px;
       background: var(--primary);
       color: white;
@@ -161,6 +164,13 @@
       font-weight: 600;
       font-size: 0.95rem;
       transition: background 0.3s;
+      flex: 1;
+    }
+    .job-card button.delete-job-btn {
+      background: #e55353;
+    }
+    .job-card button.delete-job-btn:hover {
+      background: #d43d3d;
     }
     .job-card button:hover {
       background: var(--secondary);
@@ -247,17 +257,15 @@
 
   <!-- Header -->
   <header>
-    <div class="container" style="width:90%;max-width:1200px;margin:auto;">
-      <nav>
-        <div class="logo">VITAL LABS</div>
-        <div class="nav-links">
-          <a href="index.html">Home</a>
-          <a href="culture.html">Culture</a>
-          <a href="jobs.html">Careers</a>
-          <a href="post_jobs.html">Post a Job</a>
-        </div>
-      </nav>
-    </div>
+    <nav>
+      <div class="logo">VITAL LABS</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="culture.html">Culture</a>
+        <a href="jobs.html">Careers</a>
+        <a href="post_jobs.html">Post a Job</a>
+      </div>
+    </nav>
   </header>
 
   <!-- Main Content -->
@@ -384,18 +392,87 @@
         card.innerHTML = `
           <h3>${job.title}</h3>
           <div class="job-meta">${capitalize(job.work_mode)} • ${job.job_type}</div>
-          <button class="btn view-applicants-btn" data-jobid="${job.id}">View Applicants</button>
+          <div class="btn-group">
+            <button class="btn view-applicants-btn" data-jobid="${job.id}">View Applicants</button>
+            <button class="btn delete-job-btn" data-jobid="${job.id}">Delete</button>
+          </div>
         `;
         jobListDiv.appendChild(card);
       });
 
-      // Add event listeners for View Applicants buttons
+      // View Applicants event
       document.querySelectorAll('.view-applicants-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
           selectedJobId = btn.getAttribute('data-jobid');
           await showApplicants(selectedJobId);
         });
       });
+
+      // Delete Job event
+      document.querySelectorAll('.delete-job-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const jobId = btn.getAttribute('data-jobid');
+          if (confirm("Are you sure you want to delete this job and all its applicants?")) {
+            await deleteJobAndApplicants(jobId);
+          }
+        });
+      });
+    }
+
+    // Delete job, its applicants, and their resumes
+    async function deleteJobAndApplicants(jobId) {
+      // 1. Get all applicants for this job
+      const { data: applicants, error: applicantsError } = await supabase
+        .from('applicants')
+        .select('*')
+        .eq('job_id', jobId);
+
+      if (applicantsError) {
+        alert('Error fetching applicants: ' + applicantsError.message);
+        return;
+      }
+
+      // 2. Delete resumes from storage
+      if (applicants && applicants.length) {
+        for (const applicant of applicants) {
+          if (applicant.resume) {
+            // Extract the file path from the public URL
+            // Example: https://.../storage/v1/object/public/resumes/filename.pdf
+            const urlParts = applicant.resume.split('/resumes/');
+            if (urlParts.length === 2) {
+              const filePath = urlParts[1];
+              await supabase.storage.from('resumes').remove([filePath]);
+            }
+          }
+        }
+      }
+
+      // 3. Delete applicants from table
+      const { error: deleteApplicantsError } = await supabase
+        .from('applicants')
+        .delete()
+        .eq('job_id', jobId);
+
+      if (deleteApplicantsError) {
+        alert('Error deleting applicants: ' + deleteApplicantsError.message);
+        return;
+      }
+
+      // 4. Delete job from jobs table
+      const { error: deleteJobError } = await supabase
+        .from('jobs')
+        .delete()
+        .eq('id', jobId);
+
+      if (deleteJobError) {
+        alert('Error deleting job: ' + deleteJobError.message);
+        return;
+      }
+
+      alert('Job and all related applicants deleted!');
+      jobs = await fetchJobs();
+      filteredJobs = jobs;
+      renderJobs(filteredJobs);
     }
 
     // Add Job
