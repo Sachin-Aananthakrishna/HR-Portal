@@ -243,25 +243,16 @@
       <!-- Filter -->
       <div class="job-filters">
         <div class="filter-group">
-          <label><input type="checkbox" value="Remote"> Remote</label>
-          <label><input type="checkbox" value="Onsite"> Onsite</label>
-          <label><input type="checkbox" value="Full-time"> Full-time</label>
+          <label><input type="checkbox" value="Remote" class="filter-workmode"> Remote</label>
+          <label><input type="checkbox" value="Onsite" class="filter-workmode"> Onsite</label>
+          <label><input type="checkbox" value="Full-time" class="filter-jobtype"> Full-time</label>
+          <label><input type="checkbox" value="Part-time" class="filter-jobtype"> Part-time</label>
         </div>
       </div>
 
       <!-- Job Cards -->
       <div class="jobs-list">
-        <div class="job-card">
-          <h3>UI/UX Designer</h3>
-          <div class="job-meta">Remote • Full-time</div>
-          <button class="btn apply-btn">Apply</button>
-        </div>
-        <div class="job-card">
-          <h3>Backend Developer</h3>
-          <div class="job-meta">Onsite • Full-time</div>
-          <button class="btn apply-btn">Apply</button>
-        </div>
-        <!-- Add more cards -->
+        <!-- Dynamic job cards will be rendered here -->
       </div>
     </div>
   </section>
@@ -274,27 +265,15 @@
         <div class="form-grid">
           <div class="form-group">
             <label>Name</label>
-            <input type="text" required>
+            <input type="text" name="name" required>
           </div>
           <div class="form-group">
             <label>Email</label>
-            <input type="email" required>
+            <input type="email" name="email" required>
           </div>
           <div class="form-group">
             <label>Phone Number</label>
-            <input type="tel" required>
-          </div>
-          <div class="form-group">
-            <label>Location</label>
-            <input type="text">
-          </div>
-          <div class="form-group">
-            <label>Qualifications</label>
-            <input type="text">
-          </div>
-          <div class="form-group">
-            <label>Experience</label>
-            <input type="text">
+            <input type="tel" name="phone" required>
           </div>
           <div class="form-group resume-box">
             <label>Upload Resume (PDF, DOC, DOCX)</label>
@@ -329,27 +308,168 @@
     </div>
   </footer>
 
-  <script>
-    // Show apply form
-    document.querySelectorAll('.apply-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.getElementById('applyForm').style.display = 'flex';
+  <!-- Supabase and App Logic -->
+  <script type="module">
+    // Supabase config
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const SUPABASE_URL = 'https://dzheqitkbxewpecuyske.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6aGVxaXRrYnhld3BlY3V5c2tlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3MzIwOTYsImV4cCI6MjA2MjMwODA5Nn0.dQmD3kmUPQhk9hd1z8iFBXheaJFZk7Q-YnjF_mREZZQ';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // DOM elements
+    const jobsListDiv = document.querySelector('.jobs-list');
+    const applyFormOverlay = document.getElementById('applyForm');
+    const applyForm = applyFormOverlay.querySelector('form');
+    let jobs = [];
+    let filteredJobs = [];
+    let selectedJobId = null;
+
+    // Fetch jobs from Supabase
+    async function fetchJobs() {
+      const { data, error } = await supabase
+        .from('jobs')
+        .select('*')
+        .order('date', { ascending: false });
+      if (error) {
+        alert('Failed to fetch jobs: ' + error.message);
+        return [];
+      }
+      return data;
+    }
+
+    // Render jobs
+    function renderJobs(jobsToRender) {
+      jobsListDiv.innerHTML = '';
+      if (!jobsToRender.length) {
+        jobsListDiv.innerHTML = '<p>No jobs found.</p>';
+        return;
+      }
+      jobsToRender.forEach(job => {
+        const card = document.createElement('div');
+        card.className = 'job-card';
+        card.innerHTML = `
+          <h3>${job.title}</h3>
+          <div class="job-meta">${job.work_mode} • ${job.job_type}</div>
+          <button class="btn apply-btn" data-jobid="${job.id}">Apply</button>
+        `;
+        jobsListDiv.appendChild(card);
       });
+
+      // Add event listeners for Apply buttons
+      document.querySelectorAll('.apply-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          selectedJobId = btn.getAttribute('data-jobid');
+          applyFormOverlay.style.display = 'flex';
+        });
+      });
+    }
+
+    // Filter logic
+    function getActiveFilters() {
+      const workModes = Array.from(document.querySelectorAll('.filter-workmode:checked')).map(cb => cb.value);
+      const jobTypes = Array.from(document.querySelectorAll('.filter-jobtype:checked')).map(cb => cb.value);
+      return { workModes, jobTypes };
+    }
+    function applyFilters() {
+      const { workModes, jobTypes } = getActiveFilters();
+      filteredJobs = jobs.filter(job => {
+        const workModeMatch = !workModes.length || workModes.includes(job.work_mode);
+        const jobTypeMatch = !jobTypes.length || jobTypes.includes(job.job_type);
+        return workModeMatch && jobTypeMatch;
+      });
+      renderJobs(filteredJobs);
+    }
+    document.querySelectorAll('.filter-workmode, .filter-jobtype').forEach(cb => {
+      cb.addEventListener('change', applyFilters);
     });
 
-    // Close form when clicking outside (optional)
-    document.getElementById('applyForm').addEventListener('click', (e) => {
+    // Search logic
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      let searchResults = filteredJobs.length ? filteredJobs : jobs;
+      if (query) {
+        searchResults = searchResults.filter(job => job.title.toLowerCase().includes(query));
+      }
+      renderJobs(searchResults);
+    });
+
+    // Close form when clicking outside
+    applyFormOverlay.addEventListener('click', (e) => {
       if (e.target.id === 'applyForm') {
         e.target.style.display = 'none';
       }
     });
 
-    // Filter/Search redirect (you can build dynamic filtering logic as next step)
-    document.getElementById('searchForm').addEventListener('submit', function(e) {
+    // Submit application
+    applyForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      const query = document.getElementById('searchInput').value;
-      alert("You searched for: " + query); // Replace with real filtering later
+      const formData = new FormData(applyForm);
+      const name = formData.get('name');
+      const email = formData.get('email');
+      const phone = formData.get('phone');
+      const resumeFile = applyForm.querySelector('input[type="file"]').files[0];
+
+      if (!name || !email || !phone || !resumeFile || !selectedJobId) {
+        alert('Please fill all required fields.');
+        return;
+      }
+
+      // Disable submit button
+      const submitBtn = applyForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      // 1. Upload resume to Supabase Storage
+      const fileExt = resumeFile.name.split('.').pop();
+      const fileName = `${Date.now()}_${name.replace(/\s/g, '_')}.${fileExt}`;
+      const { error: uploadError } = await supabase
+        .storage
+        .from('resumes')
+        .upload(fileName, resumeFile);
+
+      if (uploadError) {
+        alert('Resume upload failed: ' + uploadError.message);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application';
+        return;
+      }
+
+      // 2. Get public URL for the uploaded file
+      const { data: publicUrlData } = supabase
+        .storage
+        .from('resumes')
+        .getPublicUrl(fileName);
+      const resumeUrl = publicUrlData?.publicUrl;
+
+      // 3. Insert applicant data into 'applicants' table
+      const { error: insertError } = await supabase
+        .from('applicants')
+        .insert([{
+          job_id: selectedJobId,
+          name,
+          email,
+          phone,
+          resume: resumeUrl
+        }]);
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Application';
+
+      if (insertError) {
+        alert('Error: ' + insertError.message);
+      } else {
+        alert('Application submitted successfully!');
+        applyFormOverlay.style.display = 'none';
+        applyForm.reset();
+      }
     });
+
+    // Initial load
+    jobs = await fetchJobs();
+    filteredJobs = jobs;
+    renderJobs(jobs);
+
   </script>
 </body>
 </html>

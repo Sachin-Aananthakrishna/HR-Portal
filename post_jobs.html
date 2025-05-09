@@ -4,129 +4,167 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Post Jobs | Vital Labs</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
+    :root {
+      --primary: #0077ff;
+      --secondary: #00c2ff;
+      --accent: #ffd700;
+      --dark: #0b0c10;
+      --light: #f9f9f9;
+      --gray: #adb5bd;
+    }
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: var(--light);
+      color: var(--dark);
+      font-family: 'Poppins', Arial, sans-serif;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
-
     header {
-      background: #004466;
-      color: #fff;
-      padding: 1rem 2rem;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 20px 0;
     }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.5rem;
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary);
     }
-
-    nav a {
-      color: white;
+    .nav-links a {
+      margin-left: 30px;
+      color: var(--dark);
+      transition: color 0.3s ease;
       text-decoration: none;
-      margin-left: 1.5rem;
       font-size: 1rem;
     }
-
-    nav a:hover {
-      text-decoration: underline;
+    .nav-links a:hover {
+      color: var(--primary);
     }
-
-    footer {
-      background: #004466;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-    }
-
     .main-content {
       display: flex;
       max-width: 1200px;
-      margin: 2rem auto;
+      margin: 2rem auto 0 auto;
       gap: 2rem;
       padding: 0 1rem;
-    }
-
-    .sidebar {
-      width: 250px;
-      background: #fff;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      height: fit-content;
-    }
-
-    .sidebar input, .sidebar select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-
-    .content-area {
       flex: 1;
     }
-
-    .form-container {
-      background: #fff;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 2rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    .sidebar {
+      width: 250px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      height: fit-content;
     }
-
+    .sidebar h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+    .sidebar input, .sidebar select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid var(--gray);
+      font-size: 1rem;
+    }
+    .content-area {
+      flex: 1;
+      min-width: 0;
+    }
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+    .form-container h2 {
+      margin-top: 0;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
     .form-container input, .form-container select {
       width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid var(--gray);
+      font-size: 1rem;
     }
-
     .form-container button {
-      background: #28a745;
+      background: var(--primary);
       color: white;
       border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 4px;
+      padding: 10px 25px;
+      border-radius: 30px;
       cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.3s, transform 0.3s;
     }
-
-    .job-listing .job-card {
-      border: 1px solid #ccc;
-      padding: 1rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      background: #fff;
+    .form-container button:hover {
+      background: var(--secondary);
+      transform: scale(1.05);
+    }
+    .job-listing h2 {
+      color: var(--primary);
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    .job-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px 20px 20px 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 20px;
       position: relative;
+      transition: transform 0.3s;
     }
-
+    .job-card:hover {
+      transform: translateY(-6px);
+    }
     .job-card h3 {
-      margin: 0 0 0.5rem;
+      margin: 0 0 10px 0;
+      font-size: 1.2rem;
     }
-
+    .job-meta {
+      font-size: 15px;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
     .job-card button {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
-      padding: 0.5rem 1rem;
-      background-color: #007bff;
-      border: none;
+      top: 20px;
+      right: 20px;
+      padding: 7px 16px;
+      background: var(--primary);
       color: white;
-      border-radius: 4px;
+      border: none;
+      border-radius: 30px;
       cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.3s;
     }
-
+    .job-card button:hover {
+      background: var(--secondary);
+    }
     .popup, .candidate-popup {
       display: none;
       position: fixed;
@@ -135,49 +173,73 @@
       background-color: rgba(0,0,0,0.7);
       justify-content: center;
       align-items: center;
-      z-index: 10;
+      z-index: 10000;
     }
-
     .popup-content, .candidate-content {
       background: #fff;
       padding: 2rem;
       border-radius: 10px;
-      width: 80%;
+      width: 90%;
       max-width: 600px;
       max-height: 80%;
       overflow-y: auto;
       position: relative;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
     }
-
     .close-btn, .back-btn {
       position: absolute;
       top: 10px;
-      background: red;
+      background: var(--primary);
       color: white;
       border: none;
       padding: 0.3rem 0.7rem;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 1rem;
+      z-index: 2;
     }
-
     .close-btn {
       right: 10px;
+      background: red;
     }
-
     .back-btn {
       left: 10px;
-      background: #007bff;
+      background: var(--primary);
     }
-
     .candidate-name {
       cursor: pointer;
-      color: #007bff;
+      color: var(--primary);
       margin: 0.5rem 0;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-weight: 500;
+      transition: color 0.2s;
     }
-
-    nav {
-      display: flex;
-      align-items: center;
+    .candidate-name:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+    }
+    .resume-link {
+      color: var(--primary);
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0 1rem 0;
+      margin-top: 2rem;
+      font-size: 1rem;
+    }
+    @media (max-width: 900px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+      }
     }
   </style>
 </head>
@@ -185,13 +247,17 @@
 
   <!-- Header -->
   <header>
-    <h1>Vital Labs</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="culture.html" target="_blank">Culture</a>
-      <a href="contact.php" target="_blank">Contact</a>
-      <a href="post_jobs.html">Post a Job</a>
-    </nav>
+    <div class="container" style="width:90%;max-width:1200px;margin:auto;">
+      <nav>
+        <div class="logo">VITAL LABS</div>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="culture.html">Culture</a>
+          <a href="jobs.html">Careers</a>
+          <a href="post_jobs.html">Post a Job</a>
+        </div>
+      </nav>
+    </div>
   </header>
 
   <!-- Main Content -->
@@ -200,17 +266,18 @@
     <!-- Sidebar Search/Filters -->
     <div class="sidebar">
       <h3>Search & Filter</h3>
-      <input type="text" id="searchBar" placeholder="Search by title..." oninput="filterJobs()" />
-      <select id="filterRemote" onchange="filterJobs()">
-        <option value="">Remote</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
+      <input type="text" id="searchBar" placeholder="Search by title..." />
+      <select id="filterRemote">
+        <option value="">Work Mode</option>
+        <option value="remote">Remote</option>
+        <option value="on-site">On-site</option>
       </select>
-      <select id="filterFulltime" onchange="filterJobs()">
-        <option value="">Full-Time</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
+      <select id="filterFulltime">
+        <option value="">Job Type</option>
+        <option value="Full-time">Full-time</option>
+        <option value="Part-time">Part-time</option>
       </select>
+      <button class="btn" id="filterBtn" style="width:100%;">Apply Filters</button>
     </div>
 
     <!-- Job Form + List -->
@@ -220,28 +287,22 @@
         <h2>Add New Job</h2>
         <input type="text" id="jobTitle" placeholder="Job Title" />
         <select id="remote">
-          <option value="">Remote?</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
+          <option value="">Work Mode</option>
+          <option value="remote">Remote</option>
+          <option value="on-site">On-Site</option>
         </select>
         <select id="fulltime">
-          <option value="">Full-Time?</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
+          <option value="">Job Type</option>
+          <option value="Full-time">Full-Time</option>
+          <option value="Part-time">Part-Time</option>
         </select>
-        <button onclick="addJob()">Post Job</button>
+        <button id="addJobBtn">Post Job</button>
       </section>
 
       <!-- Job Cards -->
       <section class="job-listing" id="jobList">
         <h2>Posted Jobs</h2>
-        <!-- One default sample job -->
-        <div class="job-card" data-title="Frontend Developer" data-remote="Yes" data-fulltime="Yes">
-          <h3>Frontend Developer</h3>
-          <p>Remote: Yes</p>
-          <p>Full-Time: Yes</p>
-          <button onclick="showApplicants()">View</button>
-        </div>
+        <!-- Dynamic job cards will be rendered here -->
       </section>
     </div>
   </div>
@@ -251,8 +312,9 @@
     <div class="popup-content">
       <button class="close-btn" onclick="closePopup('applicantPopup')">X</button>
       <h2>Applicants</h2>
-      <div class="candidate-name" onclick="showCandidateDetails('Alice', 'Resume: alice.pdf\nSkills: HTML, CSS, React')">Alice</div>
-      <div class="candidate-name" onclick="showCandidateDetails('Bob', 'Resume: bob.pdf\nSkills: Node.js, MongoDB')">Bob</div>
+      <div id="applicantList">
+        <!-- Applicant names will be rendered here -->
+      </div>
     </div>
   </div>
 
@@ -262,83 +324,203 @@
       <button class="close-btn" onclick="closePopup('candidatePopup')">X</button>
       <button class="back-btn" onclick="goBackToApplicants()">← Back</button>
       <h2 id="candidateName"></h2>
-      <p id="candidateDetails"></p>
+      <p><b>Email:</b> <span id="candidateEmail"></span></p>
+      <p><b>Phone:</b> <span id="candidatePhone"></span></p>
+      <p><b>Resume:</b> <a id="candidateResume" class="resume-link" href="#" target="_blank">View/Download</a></p>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    <p>© 2025 Vital Labs. All rights reserved.</p>
+    © 2025 Vital Labs. All rights reserved.
   </footer>
 
-  <!-- Script -->
-  <script>
-    function addJob() {
-      const title = document.getElementById('jobTitle').value;
+  <!-- Supabase and App Logic -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const SUPABASE_URL = 'https://dzheqitkbxewpecuyske.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6aGVxaXRrYnhld3BlY3V5c2tlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3MzIwOTYsImV4cCI6MjA2MjMwODA5Nn0.dQmD3kmUPQhk9hd1z8iFBXheaJFZk7Q-YnjF_mREZZQ';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // DOM elements
+    const jobListDiv = document.getElementById('jobList');
+    const applicantPopup = document.getElementById('applicantPopup');
+    const applicantListDiv = document.getElementById('applicantList');
+    const candidatePopup = document.getElementById('candidatePopup');
+    const candidateName = document.getElementById('candidateName');
+    const candidateEmail = document.getElementById('candidateEmail');
+    const candidatePhone = document.getElementById('candidatePhone');
+    const candidateResume = document.getElementById('candidateResume');
+    let jobs = [];
+    let applicants = [];
+    let filteredJobs = [];
+    let selectedJobId = null;
+    let selectedApplicants = [];
+
+    // Fetch jobs from Supabase
+    async function fetchJobs() {
+      const { data, error } = await supabase
+        .from('jobs')
+        .select('*')
+        .order('date', { ascending: false });
+      if (error) {
+        alert('Failed to fetch jobs: ' + error.message);
+        return [];
+      }
+      return data;
+    }
+
+    // Render jobs
+    function renderJobs(jobsToRender) {
+      jobListDiv.innerHTML = '<h2>Posted Jobs</h2>';
+      if (!jobsToRender.length) {
+        jobListDiv.innerHTML += '<p>No jobs posted yet.</p>';
+        return;
+      }
+      jobsToRender.forEach(job => {
+        const card = document.createElement('div');
+        card.className = 'job-card';
+        card.innerHTML = `
+          <h3>${job.title}</h3>
+          <div class="job-meta">${capitalize(job.work_mode)} • ${job.job_type}</div>
+          <button class="btn view-applicants-btn" data-jobid="${job.id}">View Applicants</button>
+        `;
+        jobListDiv.appendChild(card);
+      });
+
+      // Add event listeners for View Applicants buttons
+      document.querySelectorAll('.view-applicants-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          selectedJobId = btn.getAttribute('data-jobid');
+          await showApplicants(selectedJobId);
+        });
+      });
+    }
+
+    // Add Job
+    document.getElementById('addJobBtn').addEventListener('click', async function() {
+      const title = document.getElementById('jobTitle').value.trim();
       const remote = document.getElementById('remote').value;
       const fulltime = document.getElementById('fulltime').value;
-
       if (!title || !remote || !fulltime) {
         alert("Please fill in all fields.");
         return;
       }
-
-      const card = document.createElement('div');
-      card.className = 'job-card';
-      card.setAttribute('data-title', title.toLowerCase());
-      card.setAttribute('data-remote', remote);
-      card.setAttribute('data-fulltime', fulltime);
-      card.innerHTML = `
-        <h3>${title}</h3>
-        <p>Remote: ${remote}</p>
-        <p>Full-Time: ${fulltime}</p>
-        <button onclick="showApplicants()">View</button>
-      `;
-      document.getElementById('jobList').appendChild(card);
-
+      // Insert into Supabase
+      const { error } = await supabase
+        .from('jobs')
+        .insert([{
+          title: title,
+          work_mode: remote,
+          job_type: fulltime,
+          date: new Date().toISOString()
+        }]);
+      if (error) {
+        alert('Error posting job: ' + error.message);
+        return;
+      }
       document.getElementById('jobTitle').value = '';
       document.getElementById('remote').value = '';
       document.getElementById('fulltime').value = '';
-    }
+      jobs = await fetchJobs();
+      filteredJobs = jobs;
+      renderJobs(filteredJobs);
+      alert('Job posted successfully!');
+    });
 
-    function showApplicants() {
-      document.getElementById('applicantPopup').style.display = 'flex';
-    }
-
-    function closePopup(id) {
-      document.getElementById(id).style.display = 'none';
-    }
-
-    function showCandidateDetails(name, details) {
-      document.getElementById('candidateName').innerText = name;
-      document.getElementById('candidateDetails').innerText = details;
-      document.getElementById('applicantPopup').style.display = 'none';
-      document.getElementById('candidatePopup').style.display = 'flex';
-    }
-
-    function goBackToApplicants() {
-      document.getElementById('candidatePopup').style.display = 'none';
-      document.getElementById('applicantPopup').style.display = 'flex';
-    }
-
-    function filterJobs() {
-      const search = document.getElementById('searchBar').value.toLowerCase();
-      const remote = document.getElementById('filterRemote').value;
-      const fulltime = document.getElementById('filterFulltime').value;
-
-      const cards = document.querySelectorAll('.job-card');
-      cards.forEach(card => {
-        const title = card.getAttribute('data-title') || "";
-        const isRemote = card.getAttribute('data-remote') || "";
-        const isFull = card.getAttribute('data-fulltime') || "";
-
-        const matchesTitle = title.includes(search);
-        const matchesRemote = !remote || isRemote === remote;
-        const matchesFulltime = !fulltime || isFull === fulltime;
-
-        card.style.display = (matchesTitle && matchesRemote && matchesFulltime) ? 'block' : 'none';
+    // Fetch applicants for a job
+    async function showApplicants(jobId) {
+      applicantListDiv.innerHTML = '<p>Loading...</p>';
+      applicantPopup.style.display = 'flex';
+      const { data, error } = await supabase
+        .from('applicants')
+        .select('*')
+        .eq('job_id', jobId);
+      if (error) {
+        applicantListDiv.innerHTML = '<p>Error loading applicants.</p>';
+        return;
+      }
+      selectedApplicants = data;
+      if (!data.length) {
+        applicantListDiv.innerHTML = '<p>No applicants yet for this job.</p>';
+        return;
+      }
+      applicantListDiv.innerHTML = '';
+      data.forEach(applicant => {
+        const div = document.createElement('div');
+        div.className = 'candidate-name';
+        div.innerText = applicant.name;
+        div.addEventListener('click', () => showCandidateDetails(applicant));
+        applicantListDiv.appendChild(div);
       });
     }
+
+    // Show candidate details popup
+    function showCandidateDetails(applicant) {
+      candidateName.innerText = applicant.name;
+      candidateEmail.innerText = applicant.email;
+      candidatePhone.innerText = applicant.phone;
+      candidateResume.href = applicant.resume;
+      candidateResume.innerText = applicant.resume ? "View/Download" : "Not uploaded";
+      applicantPopup.style.display = 'none';
+      candidatePopup.style.display = 'flex';
+    }
+
+    // Close popups
+    window.closePopup = function(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+    window.goBackToApplicants = function() {
+      candidatePopup.style.display = 'none';
+      applicantPopup.style.display = 'flex';
+    }
+
+    // Filtering
+    function filterJobs() {
+      const search = document.getElementById('searchBar').value.trim().toLowerCase();
+      const remote = document.getElementById('filterRemote').value;
+      const fulltime = document.getElementById('filterFulltime').value;
+      filteredJobs = jobs.filter(job => {
+        const matchesTitle = !search || job.title.toLowerCase().includes(search);
+        const matchesRemote = !remote || job.work_mode === remote;
+        const matchesFulltime = !fulltime || job.job_type === fulltime;
+        return matchesTitle && matchesRemote && matchesFulltime;
+      });
+      renderJobs(filteredJobs);
+    }
+    document.getElementById('filterBtn').addEventListener('click', filterJobs);
+
+    // Capitalize helper
+    function capitalize(str) {
+      if (!str) return '';
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // Initial load
+    jobs = await fetchJobs();
+    filteredJobs = jobs;
+    renderJobs(jobs);
+
+    // Optional: filter live as you type
+    document.getElementById('searchBar').addEventListener('input', filterJobs);
+    document.getElementById('filterRemote').addEventListener('change', filterJobs);
+    document.getElementById('filterFulltime').addEventListener('change', filterJobs);
+
+    // Close popups with ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === "Escape") {
+        applicantPopup.style.display = 'none';
+        candidatePopup.style.display = 'none';
+      }
+    });
+    // Close popups when clicking outside
+    applicantPopup.addEventListener('click', function(e) {
+      if (e.target === applicantPopup) applicantPopup.style.display = 'none';
+    });
+    candidatePopup.addEventListener('click', function(e) {
+      if (e.target === candidatePopup) candidatePopup.style.display = 'none';
+    });
   </script>
 </body>
 </html>
