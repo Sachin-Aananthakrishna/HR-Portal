@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Join Our Team | VITAL LABS</title>
+  <title>Job Openings | VITAL LABS</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
-  <style> 
+  <style>
     :root {
       --primary: #0077ff;
       --secondary: #00c2ff;
@@ -62,14 +62,13 @@
       top: 0;
       z-index: 1000;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      transition: background 0.3s;
     }
 
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 0;
+      padding: 20px 5%;
     }
 
     .logo {
@@ -92,31 +91,24 @@
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
       text-align: center;
-      padding: 100px 20px;
+      padding: 80px 20px;
     }
 
     .hero h1 {
       font-size: 48px;
       margin-bottom: 20px;
-      animation: fadeIn 1s ease;
     }
 
-    .hero p {
-      font-size: 20px;
-      margin-bottom: 30px;
-      animation: fadeIn 1.3s ease;
-    }
-
-    .search-bar {
+    .search-form {
       display: flex;
       max-width: 600px;
-      margin: auto;
+      margin: 30px auto;
       background: white;
       border-radius: 30px;
       overflow: hidden;
     }
 
-    .search-bar input {
+    .search-form input {
       flex: 1;
       padding: 15px;
       border: none;
@@ -124,7 +116,7 @@
       font-size: 16px;
     }
 
-    .search-bar button {
+    .search-form button {
       background: var(--primary);
       color: white;
       border: none;
@@ -133,42 +125,16 @@
       transition: 0.3s;
     }
 
-    .jobs, .culture, .contact {
-      padding: 80px 0;
+    .section-title {
       text-align: center;
-    }
-
-    .section-title h2 {
-      font-size: 36px;
-      margin-bottom: 20px;
-    }
-
-    .job-filters {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 40px;
-    }
-
-    .filter-btn {
-      border: 1px solid var(--primary);
-      background: white;
-      padding: 10px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .filter-btn:hover, .filter-btn.active {
-      background: var(--primary);
-      color: white;
+      padding: 60px 0 20px;
     }
 
     .job-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 30px;
+      padding: 40px 0;
     }
 
     .job-card {
@@ -201,53 +167,10 @@
       margin-bottom: 10px;
     }
 
-    .culture-cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-    }
-
-    .culture-card {
-      background: white;
-      border-radius: 10px;
-      width: 250px;
-      padding: 30px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-      transition: 0.3s ease-in-out;
-    }
-
-    .culture-card:hover {
-      transform: scale(1.05);
-    }
-
-    .culture-card i {
-      font-size: 36px;
-      color: var(--primary);
-      margin-bottom: 15px;
-    }
-
-    .contact-form {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: 1px solid var(--gray);
-      border-radius: 5px;
-    }
-
     footer {
       background: var(--dark);
       color: white;
-      padding: 60px 0 30px;
+      padding: 60px 5% 30px;
     }
 
     .footer-content {
@@ -263,8 +186,8 @@
     }
 
     .footer-links li {
-      margin-bottom: 10px;
       list-style: none;
+      margin-bottom: 10px;
     }
 
     .footer-links a {
@@ -282,11 +205,6 @@
       color: #aaa;
     }
 
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -300,85 +218,74 @@
 </head>
 <body>
 
-<!-- Header -->
-<header>
-  <div class="container">
+  <header>
     <nav>
       <div class="logo">VITAL LABS</div>
       <div class="nav-links">
-        <a href="#hero">Home</a>
-        <a href="#jobs">Careers</a>
+        <a href="index.html">Home</a>
         <a href="culture.html">Culture</a>
         <a href="contact.html">Contact</a>
-        <a href="#" class="btn">Post a Job</a>
+        <a href="jobs.html">Careers</a>
       </div>
     </nav>
-  </div>
-</header>
+  </header>
 
-<!-- Hero -->
-<section class="hero" id="hero">
-  <div class="container">
-    <h1>Join Our Team</h1>
-    <p>We’re building the future. Find your dream job and grow with us.</p>
-    <div class="search-bar">
-      <input type="text" placeholder="Search jobs (e.g., 'Designer')">
-      <button>Search</button>
-    </div>
-  </div>
-</section>
+  <section class="hero">
+    <h1>We're Hiring!</h1>
+    <p>Find your role and grow with us.</p>
+    <form action="jobs.html" method="get" class="search-form">
+      <input type="text" name="q" placeholder="Search jobs..." />
+      <button type="submit">Search</button>
+    </form>
+  </section>
 
-<!-- Jobs -->
-<section class="jobs" id="jobs">
-  <div class="container">
+  <section class="container">
     <div class="section-title">
       <h2>Open Positions</h2>
-      <p>Find the role that’s right for you</p>
     </div>
-    <div class="job-grid">
-      <div class="job-card">
-        <h3>Frontend Developer</h3>
-        <div class="job-meta">
-          <span><i class="fas fa-map-marker-alt"></i> Remote</span>
-          <span><i class="fas fa-briefcase"></i> Full-time</span>
-        </div>
-        <p class="salary">$90,000 - $120,000</p>
-        <p>Creative and skilled frontend developer needed.</p>
-        <a href="#contact" class="btn">Apply Now</a>
-      </div>
+    <div style="text-align: center; padding: 40px 0;">
+      <a href="jobs.html" class="btn">Explore Jobs</a>
     </div>
-  </div>
-</section>
+  </section>
+  
 
-<!-- Footer -->
-<footer>
-  <div class="container">
+  <footer>
     <div class="footer-content">
       <div class="footer-column">
-        <h3>Company</h3>
+        <h3>About</h3>
+        <p>Vital Labs is a forward-thinking tech company focused on innovation and impact.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Quick Links</h3>
         <ul class="footer-links">
-          <li><a href="#">About</a></li>
-          <li><a href="#">Careers</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="jobs.html">Careers</a></li>
+          <li><a href="culture.html">Culture</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
     </div>
-    <div class="copyright">
-      <p>&copy; 2025 VitalLabs. All Rights Reserved.</p>
-    </div>
-  </div>
-</footer>
+    <div class="copyright">© 2025 Vital Labs. All rights reserved.</div>
+  </footer>
 
-<script>
-  // Smooth scrolling for nav links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector(this.getAttribute("href")).scrollIntoView({
-        behavior: "smooth"
+  <script>
+    // Filter job cards by search term from URL
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const searchQuery = urlParams.get('q');
+
+    if (searchQuery) {
+      const cards = document.querySelectorAll('.job-card');
+      const keyword = searchQuery.toLowerCase();
+
+      cards.forEach(card => {
+        const matchText = card.dataset.keywords.toLowerCase();
+        if (!matchText.includes(keyword)) {
+          card.style.display = "none";
+        }
       });
-    });
-  });
-</script>
+    }
+  </script>
 
 </body>
 </html>
